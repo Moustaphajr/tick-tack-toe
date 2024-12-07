@@ -1,19 +1,26 @@
 const cellules = document.querySelectorAll(".cellule");
 const winnerData = document.getElementById("winner");
-let horizontalWin = "";
-let verticalWin = "";
-let diagonalWin = "";
+let winner = "";
 
 const tour = document.querySelector(".turn");
 let currentPion = "";
+
+//on crée un évenement click sur chaque cellule
 cellules.forEach((cellule) => {
   cellule.addEventListener("click", (e) => {
     const span = document.createElement("span");
     e.target.appendChild(span);
-    if (e.target.firstChild.textContent === "") {
+    if (
+      e.target.firstChild.textContent === "" &&
+      !checkWinnerHorizontally(cellules) &&
+      !checkWinnerVertically(cellules) &&
+      !checkWinnerDiagonally(cellules)
+    ) {
       currentPion = currentPion === "X" ? "O" : "X";
       span.textContent = currentPion;
-      currentPion==="X"?span.classList.add("green"):span.classList.add("red");
+      currentPion === "X"
+        ? span.classList.add("green")
+        : span.classList.add("red");
     }
     tour.textContent = `c'est au tour du  ${
       currentPion === "X" ? "joueur 2" : "joueur 1"
@@ -23,6 +30,7 @@ cellules.forEach((cellule) => {
   });
 });
 
+//fonction  qui vérifie  toutes les possibilités de victoires
 function checkWinner() {
   if (checkWinnerHorizontally(cellules)) {
     winnerData.textContent = checkWinnerHorizontally(cellules);
@@ -36,6 +44,7 @@ function checkWinner() {
   }
 }
 
+//fonction qui vérifie si un joueur a gagné horizontalement
 function checkWinnerHorizontally(data) {
   if (
     (data[0]?.firstElementChild?.textContent === "X" &&
@@ -45,7 +54,7 @@ function checkWinnerHorizontally(data) {
       data[1]?.firstElementChild?.textContent === "O" &&
       data[2]?.firstElementChild?.textContent === "O")
   ) {
-    horizontalWin = `le joueur ${
+    winner = `le joueur ${
       data[0]?.firstElementChild?.textContent === "X" ? "X" : "O"
     } a gagné`;
   }
@@ -58,7 +67,7 @@ function checkWinnerHorizontally(data) {
       data[4]?.firstElementChild?.textContent === "O" &&
       data[5]?.firstElementChild?.textContent === "O")
   ) {
-    horizontalWin = `le joueur ${
+    winner = `le joueur ${
       data[3]?.firstElementChild?.textContent === "X" ? "X" : "O"
     } a gagné`;
   }
@@ -71,14 +80,15 @@ function checkWinnerHorizontally(data) {
       data[7]?.firstElementChild?.textContent === "O" &&
       data[8]?.firstElementChild?.textContent === "O")
   ) {
-    horizontalWin = `le joueur ${
+    winner = `le joueur ${
       data[6]?.firstElementChild?.textContent === "X" ? "X" : "O"
     } a gagné`;
   }
 
-  return horizontalWin;
+  return winner;
 }
 
+//fonction qui vérifie si un joueur a gagné verticalement
 function checkWinnerVertically(data) {
   if (
     (data[0]?.firstElementChild?.textContent === "X" &&
@@ -88,7 +98,7 @@ function checkWinnerVertically(data) {
       data[3]?.firstElementChild?.textContent === "O" &&
       data[6]?.firstElementChild?.textContent === "O")
   ) {
-    verticalWin = `le joueur ${
+    winner = `le joueur ${
       data[0]?.firstElementChild?.textContent === "X" ? "X" : "O"
     } a gagné`;
   }
@@ -100,7 +110,7 @@ function checkWinnerVertically(data) {
       data[4]?.firstElementChild?.textContent === "O" &&
       data[7]?.firstElementChild?.textContent === "O")
   ) {
-    verticalWin = `le joueur ${
+  winner = `le joueur ${
       data[1]?.firstElementChild?.textContent === "X" ? "X" : "O"
     } a gagné`;
   }
@@ -113,13 +123,14 @@ function checkWinnerVertically(data) {
       data[5]?.firstElementChild?.textContent === "O" &&
       data[8]?.firstElementChild?.textContent === "O")
   ) {
-    verticalWin = `le joueur ${
+    winner = `le joueur ${
       data[2]?.firstElementChild?.textContent === "X" ? "X" : "O"
     } a gagné`;
   }
-  return verticalWin;
+  return winner;
 }
 
+//fonction qui vérifie si un joueur a gagné diagonalement
 function checkWinnerDiagonally(data) {
   if (
     (data[0]?.firstElementChild?.textContent === "X" &&
@@ -129,7 +140,7 @@ function checkWinnerDiagonally(data) {
       data[4]?.firstElementChild?.textContent === "O" &&
       data[8]?.firstElementChild?.textContent === "O")
   ) {
-    diagonalWin = `le joueur ${
+    winner = `le joueur ${
       data[0]?.firstElementChild?.textContent === "X" ? "X" : "O"
     } a gagné`;
   }
@@ -141,13 +152,14 @@ function checkWinnerDiagonally(data) {
       data[4]?.firstElementChild?.textContent === "O" &&
       data[6]?.firstElementChild?.textContent === "O")
   ) {
-    diagonalWin = `le joueur ${
+    winner = `le joueur ${
       data[2]?.firstElementChild?.textContent === "X" ? "X" : "O"
     } a gagné`;
   }
-  return diagonalWin;
+  return winner;
 }
 
+//fonction qui vérifie si il y a un match nul
 function CheckMatchNull() {
   let counter = checkIsAllClicked(cellules);
   if (
@@ -160,6 +172,7 @@ function CheckMatchNull() {
   }
 }
 
+//fonction qui vérifie si toutes les cellules sont cliquées
 function checkIsAllClicked(data) {
   let counter = 0;
   for (let i = 0; i < data.length; i++) {
