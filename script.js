@@ -26,7 +26,7 @@ cellules.forEach((cellule) => {
       currentPion === "X" ? "joueur 2" : "joueur 1"
     }`;
     checkWinner();
-    CheckMatchNull();
+    checkMatchNull();
   });
 });
 
@@ -160,7 +160,7 @@ function checkWinnerDiagonally(data) {
 }
 
 //fonction qui vérifie si il y a un match nul
-function CheckMatchNull() {
+function checkMatchNull() {
   let counter = checkIsAllClicked(cellules);
   if (
     counter === 9 &&
